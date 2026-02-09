@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+
+<style>
+
+body{
+background-color: grey;
+justify-content: center;
+display: flex;
+background-image: url(https://wallpaperaccess.com/full/3159248.jpg);
+font-family: "Google Sans", sans-serif;
+font-optical-sizing: auto;
+font-weight: <weight>;
+font-style: normal;
+font-variation-settings:
+"GRAD" 0;
+}
+.container{
+border: 2px solid black;
+width: 25%;
+background-color: rgba(255,255,255,0.3);
+backdrop-filter: blur(20px);
+border-radius: 15px;
+box-shadow: 0 10px 15px;
+background-image: url(https://wallpaperaccess.com/full/3159248.jpg);
+}
+form{
+margin: 150px auto;
+}
+
+input[type="Submit"]{
+background-color: grey;
+color: white;
+border: none;
+padding: 10px 30px;
+border-radius: 15px;
+cursor: pointer;
+}
+</style>
+
+ 
+<body style = "text-align:center;">
+<form class="container">
+ <h1> FUNERAL HOME </h1>
+  <label><b>NAME</b></label><br>
+  <label for="fname"> First name: </label><br>
+  <input type="text" id="fname" name="fname" value="Harvey"><br>
+ <hr>
+
+<label class = "date" for="date">DATE</label><br>
+  <input type="date">
+ <hr>
+  <label class = "time" for="time"><b>TIME</b></label><br>
+  <input type="radio" id="pm" name"time">
+  <label for="pm">PM</label>
+  <input type="radio" id="am" name"time">
+  <label for="am">AM</label>
+<hr>
+
+  <label class = "mood" for="mood"><b>MOOD</b></label><br>
+  <input type="checkbox" id="happy" name"mood">
+  
+  <label class ="happy" for="happy"> 
+  <label for="happy"><font color="yellow"> Happy </font></label><br>
+
+  <input type="checkbox" id="angry" name"mood">
+  <label for="angry"><font color="red"> Angry </font></label><br>
+
+  <input type="checkbox" id="sad" name"mood">
+  <label for="sad"><font color="blue"> Sad </font></label><br>
+
+  <input type="checkbox" id="excited" name"mood">
+  <label for="excited"><font color="purple"> Excited</font></label><br>
+
+  <input type="checkbox" id="inlove" name"mood">
+  <label for="inlove"><font color="pink"> Inlove</font></label><br>
+
+  <input type="checkbox" id="exausted" name"mood">
+  <label for="exausted"><font color="green"> Exausted</font></label><br>
+<hr>
+
+  <label><b>FINAL MESSAGE</b></label><br>
+  <textarea type="textarea" id="text" name"textarea"> </textarea><br><br>
+
+
+<input type="submit" value=submit><br><br>
+</form>
+</body>
