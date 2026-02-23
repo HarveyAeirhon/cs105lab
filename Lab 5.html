@@ -113,5 +113,111 @@
         <button class="equals">=</button>
     </div>
 </div>
-</body>
+<script>
+var display = document.querySelector(".display");
+var buttons = document.querySelectorAll(".buttons button");
+
+var currentInput = "";
+var firstNumber = "";
+var operator = "";
+
+buttons.forEach(function(button) {
+button.addEventListener("click", function() {
+var value = button.innerHTML;
+
+        if (button.classList.contains("clear")) {
+            currentInput = "";
+            firstNumber = "";
+            operator = "";
+            display.innerHTML = "0";
+        }
+
+        else if (button.classList.contains("clear-all")) {
+            currentInput = "";
+            display.innerHTML = "0";
+        }
+
+        else if (button.classList.contains("operator")) {
+            firstNumber = currentInput;
+            operator = value;
+            currentInput = "";
+        }
+
+        else if (button.classList.contains("equals")) {
+
+            var num1 = firstNumber;
+            var num2 = currentInput;
+
+            var result;
+
+
+            if (num1 == "CIS105" || num2 == "CIS105") {
+                display.innerHTML = "CIS105";
+                return;
+            }
+
+            num1 = parseFloat(num1);
+            num2 = parseFloat(num2);
+
+            if (operator == "+") {
+
+ 
+                if (num1 >= 1000 && num2 >= 1000) {
+                    display.innerHTML = "CIS105";
+                    return;
+                }
+
+                result = num1 + num2;
+            }
+
+            else if (operator == "-") {
+
+                if (num1 >= 1000 && num2 >= 1000) {
+                    display.innerHTML = "CIS105";
+                    return;
+                }
+
+                result = num1 - num2;
+            }
+
+            else if (operator == "*") {
+
+ 
+                if ((num1.toString().length > 2 && num2.toString().length > 1) ||
+                    (num2.toString().length > 2 && num1.toString().length > 1)) {
+                    display.innerHTML = "CIS105";
+                    return;
+                }
+
+                result = num1 * num2;
+            }
+
+            else if (operator == "/") {
+
+    
+                if (num2 == 0) {
+                    display.innerHTML = "CIS105";
+                    return;
+                }
+
+                result = num1 / num2;
+                if (result > 1000) {
+                    display.innerHTML = "CIS105";
+                    return;
+                }
+            }
+
+            display.innerHTML = result;
+            currentInput = result;
+            firstNumber = "";
+            operator = "";
+        }
+
+      else {
+            currentInput += value;
+            display.innerHTML = currentInput;
+   }
+});
+});
+</script></body>
 </html>
