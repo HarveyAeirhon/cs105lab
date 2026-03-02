@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #f4f4f4;
+            font-family: Arial, sans-serif;
+        }
+        .input-container {
+            margin-bottom: 20px;
+        }
+        table {
+            background-color: white;
+            border-collapse: collapse;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background-color: #eee;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Inventory System</h1>
+
+    <div class="input-container">
+        <input type="text" id="Fname" placeholder="Item Name">
+        <input type="number" id="presyo" placeholder="Item Price">
+        <input type="number" id="Neey" placeholder="Item Stocks">
+        <button onclick="addItem()">Add Items</button>
+    </div>
+
+    <table id="inventoryTable" width="600px">
+        <thead>
+            <tr>
+                <th>Item Name</th>
+                <th>Price</th>
+                <th>Stock</th>
+            </tr>
+        </thead>
+        <tbody>
+            </tbody>
+    </table>
+
+<script>
+function addItem() {
+
+let Fname = [AF1, Jordan, Cortez, Adiddas, Nike];
+let presyo = [6000, 500, 6845, 4657, 5686];
+let Neey = [1, 2, 4, 1, 2];
+
+    const nameInput = document.getElementById("Fname");
+    const priceInput = document.getElementById("presyo");
+    const stockInput = document.getElementById("Neey");
+
+
+    const name = nameInput.value;
+    const price = priceInput.value;
+    const stock = stockInput.value;
+
+
+    const tableBody = document.getElementById("inventoryTable").getElementsByTagName('tbody')[0];
+    const newRow =document.createElement("tr");
+    const cell1 = document.createElement("td");
+    const cell2 = document.createElement("td");
+    const cell3 = document.createElement("td");
+
+cell1.append(name);
+cell2.append(price);
+
+if(stock==0){
+cell3.append("OUT OF STOCK")
+}else{
+cell3.append(stock);
+}
+newRow.append(cell1);
+newRow.append(cell2);
+newRow.append(cell3);
+
+tableBody.append(newRow);
+
+    nameInput.value = "";
+    priceInput.value = "";
+    stockInput.value = "";
+}
+</script>
+</body>
+</html>
