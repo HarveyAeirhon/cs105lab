@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #f4f4f4;
+            font-family: Arial, sans-serif;
+        }
+        .input-container {
+            margin-bottom: 20px;
+        }
+        table {
+            background-color: white;
+            border-collapse: collapse;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background-color: #eee;
+        }
+    </style>
+</head>
+
+<body>
+   <h1> INVENTORY </h1>
+
+   <input type="text" id="itemname" placeholder="ITEM NAME"><br>
+   <input type="number" id="itemprice" placeholder="ITEM PRICE"><br>
+   <input type="number" id="itemstock" placeholder="ITEM STOCK"><br>
+
+   <button onclick="inventory.addItem()"> Add Items </button><br>
+   <button onclick="inventory.buyItem()"> Buy Items  </button><br>
+
+   <h2 style="margin-top: 40px; text-align:center;"> </h2>
+   <table id="inventoryTable">
+      <tr>
+         <th> ITEM </th>
+         <th> PRICE </th>
+         <th> STOCK </th>
+      </tr>
+   </table>
+
+<script>
+class Inventory {
+    constructor(items, prices, stocks) {
+        this.items = items;
+        this.prices = prices;
+        this.stocks = stocks;
+        this.table = document.getElementById("inventoryTable");
+        this.renderTable();
+    }
+
+    renderTable() {
+        this.table.innerHTML = `
+            <tr>
+                <th> ITEM </th>
+                <th> PRICE </th>
+                <th> STOCK </th>
+            </tr>
+        `;
+        for (let i = 0; i < this.items.length; i++) {
+            const row = document.createElement("tr");
+
+            const cell1 = document.createElement("td");
+            const cell2 = document.createElement("td");
+            const cell3 = document.createElement("td");
+
+            cell1.textContent = this.items[i];
+            cell2.textContent = this.prices[i];
+            cell3.textContent = (this.stocks[i] === 0) ? "OUT OF STOCK" : this.stocks[i];
+
+            row.appendChild(cell1);
+            row.appendChild(cell2);
+            row.appendChild(cell3);
+            this.table.appendChild(row);
+        }
+    }
+
+    addItem() {
+        const name = document.getElementById("itemname").value;
+        const price = parseInt(document.getElementById("itemprice").value);
+        const stock = parseInt(document.getElementById("itemstock").value);
+
+        if (!name || isNaN(price) || isNaN(stock)) return;
+
+        this.items.push(name);
+        this.prices.push(price);
+        this.stocks.push(stock);
+
+        this.renderTable();
+
+        document.getElementById("itemname").value = "";
+        document.getElementById("itemprice").value = "";
+        document.getElementById("itemstock").value = "";
+    }
+
+    buyItem() {
+        const name = prompt("U buy:");
+        const index = this.items.indexOf(name);
+
+        if (index === -1) {
+            alert("Not found!");
+            return;
+        }
+
+        if (this.stocks[index] > 0) {
+            this.stocks[index]--;
+            alert(`Nabili muna ang ${name}!`);
+        } else {
+            alert(`${name} is OUT OF STOCK!`);
+        }
+
+        this.renderTable();
+    }
+}
+
+const inventory = new Inventory(
+    ["Jordan1", "AF1", "Cortez", "Crocs", "JordanRiver"],
+    [1000, 100, 100, 300, 50],
+    [15, 7, 35, 13, 0]
+);
+
+</script>
+</body>
+</html>
