@@ -55,6 +55,23 @@
         ];
         
         // TODO: 1. Define your computePizzaTotal Function here
+
+	function computePizzaTotal($pizza, $toppings, $quantity){
+	global $pizzaMenu, $toppingsMenu;
+	
+	$basePrice = isset($pizzaMenu[$pizza]) ? $pizzaMenu[$pizza] : 0;
+	
+ 	$toppingsPrice = 0;
+	foreach($toppings as $topping){
+	if (isset($toppingsMenu[$topping])){
+	$toppingsPrice += $toppingsMenu[$topping];
+	}
+}
+	$totalPrice = $basePrice + $toppingPrice;
+
+	return $totalPerPizza * $quantity;
+}
+
     ?>
 
     <div class="container">
@@ -74,14 +91,28 @@
 
                     <div class="form-group">
                         <label>Select Your Pizza</label>
-                        <div class="radio-group">
-                            </div>
-                    </div>
+			<?php
+			foreach ($pizzaMenu as $name => $price){
+			echo "<label>
+			<input type = 'radio' name = 'pizza' value = '$name' required>
+			$name
+			<span class = 'price'>P$price</span>
+			</label><br>";
+}
+			?>
+			</div>
 
                     <div class="form-group">
                         <label>Add Toppings</label>
-                        <div class="checkbox-group">
-                            </div>
+			<?php
+			foreach($toppingsMenu as $name => $price){
+			echo"<label>
+			<input type = 'checkbox' name = 'toppings' value = '$name' required>
+			$name
+			<span class = 'price'>P$price</span>
+			</label><br>";
+}
+			?>
                     </div>
 
                     <div class="form-group">
@@ -100,15 +131,42 @@
                         // TODO: 4. Capture Form Data
                         // TODO: 5. Call function and calculate Grand Total
                         // TODO: 6. Display Results
+			if(isset($_POST['order'])){
+			 $customer = $_POST['costumer'];
+			$pizza = $_POST['pizza'];
+			$toppings = $_POST['toppings'] ?? [];
+			$qty = $_POST['qty'];
+
+			$total = computePizzaTotal($pizza, $toppings, $qty);
+
+			echo "<div class = 'summary-item'><span>Name: </span><span>$customer</span></div>";
+			echo "<div class = 'summary-item'><span>Pizza: </span><span>$pizza</span></div>";
+			echo "<div class = 'summary-item'><span>Quantity: </span><span>$qty</span></div>";
+			
+			echo "<div class = 'summary-item'><span>Toppings: </span>";
+			echo empty($toppings) ? "None" : implode(", " ,$toppings);
+			echo "</span></div>";
+
+			echo "<div class = 'total'> Total: P$total</div>";
+}	
                     } else {
                         echo "<p style='text-align: center; color: #999;'>Place an order to see summary</p>";
                     }
+
                 ?>
             </div>
 
             <div class="card full-width">
                 <h2>📚 Menu Price List</h2>
                 <div class="menu-grid">
+		<?php
+		foreach ($pizzaMenu as $name => $price){
+			echo "<div class = 'menu-item'> $name <br> P$price</div>";
+}
+		foreach ($toppingsMenu as $name => $price){
+			echo "<div class = 'menu-item'> $name <br> P$price</div>";
+}
+?>
                     </div>
             </div>
 
