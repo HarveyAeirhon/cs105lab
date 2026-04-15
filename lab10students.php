@@ -242,7 +242,30 @@
                         <?php
                             // TODO 4: Read from 'toppings' table and generate rows dynamically
                             // Remember to use htmlspecialchars() for security!
-                            echo "<tr><td colspan='3'><em>Code toppings read logic here...</em></td></tr>";
+                            $topping_query = mysqli_query($conn, "select * from toppings");
+    
+                    if (mysqli_num_rows($topping_query) > 0) {
+                        while ($row = mysqli_fetch_assoc($topping_query)) {
+                            echo "<tr>
+                                    <td><strong>{$row['name']}</strong></td>
+                                    <td>
+                                        <form method='post' style='display:flex;'>
+                                            <input type='hidden' name='id' value='{$row['id']}'>
+                                            <input type='number' name='price' value='{$row['price']}' step='0.01' class='price-input' required>
+                                            <button type='submit' name='update_topping' class='btn-update'>Save</button>
+                                        </form>
+                                    </td>
+                                    <td>
+                                        <form method='post'>
+                                            <input type='hidden' name='id' value='{$row['id']}'>
+                                            <button type='submit' name='delete_topping' class='btn-delete'>✖</button>
+                                        </form>
+                                    </td>
+                                </tr>";
+                        }
+                    } else {
+                        echo "<tr><td colspan='3'><em>No toppings available in the database.</em></td></tr>";
+                    }
                         ?>
                     </tbody>
                 </table>
@@ -264,7 +287,18 @@
                         <div class="radio-group">
                             <?php 
                                 // TODO 5: Fetch Pizzas from DB to generate radio buttons
-                                echo "<label class='selection-item'><em>Code pizza radio buttons here...</em></label>";
+                                $pizza_options = mysqli_query($conn, "select * from pizzas");
+    
+                        if (mysqli_num_rows($pizza_options) > 0) {
+                            while ($row = mysqli_fetch_assoc($pizza_options)) {
+                                echo "<label class='selection-item'>
+                                        <input type='radio' name='pizza' value='{$row['id']}' required>
+                                        <span>{$row['name']} - <span class='price'>₱{$row['price']}</span></span>
+                                    </label>";
+                            }
+                        } else {
+                            echo "<em>Please add pizzas to the menu first.</em>";
+                        }
                             ?>
                         </div>
                     </div>
@@ -274,7 +308,19 @@
                         <div class="checkbox-group">
                             <?php 
                                 // TODO 6: Fetch Toppings from DB to generate checkboxes
-                                echo "<label class='selection-item'><em>Code topping checkboxes here...</em></label>";
+                                $topping_options = mysqli_query($conn, "select * from toppings");
+    
+                        if (mysqli_num_rows($topping_options) > 0) {
+                            while ($row = mysqli_fetch_assoc($topping_options)) {
+                                // Note the empty brackets in name='toppings[]' to submit as an array
+                                echo "<label class='selection-item'>
+                                        <input type='checkbox' name='toppings[]' value='{$row['id']}'>
+                                        <span>{$row['name']} - <span class='price'>₱{$row['price']}</span></span>
+                                    </label>";
+                            }
+                        } else {
+                            echo "<em>No toppings available.</em>";
+                        }   
                             ?>
                         </div>
                     </div>
@@ -299,11 +345,39 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <?php
-                            // TODO 7: Read from 'orders' table and display live kitchen orders
-                            // If status is Pending, show the Checkmark (✔) button. Otherwise, hide it.
-                            echo "<tr><td colspan='6' style='text-align:center;'><em>Code orders read logic here...</em></td></tr>";
-                        ?>
+            <?php
+            // TODO 7: Read from 'orders' table and display live kitchen orders
+            // If status is Pending, show the Checkmark (✔) button. Otherwise, hide it.
+                $orders_query = mysqli_query($conn, "select * from orders");
+                
+                if (mysqli_num_rows($orders_query) > 0) {
+                    while ($row = mysqli_fetch_assoc($orders_query)) {
+                        $status_class = ($row['status'] == 'Completed') ? 'bg-completed' : 'bg-pending';
+                        
+                        echo "<tr>
+                                <td>{$row['id']}</td>
+                                <td>{$row['customer']}</td>
+                                <td>Topping IDs: {$row['toppings']} | Qty: {$row['quantity']}</td>
+                                <td>₱{$row['total_price']}</td>
+                                <td><span class='badge {$status_class}'>{$row['status']}</span></td>
+                                <td>
+                                    <form method='post' style='display:inline-block;'>
+                                        <input type='hidden' name='id' value='{$row['id']}'>";
+                        
+                        // Only show the complete button if the order is still pending
+                        if ($row['status'] == 'Pending') {
+                            echo "      <button type='submit' name='update_status' class='btn-update' title='Mark Completed'>✔</button>";
+                        }
+                        
+                        echo "          <button type='submit' name='delete_order' class='btn-delete' title='Delete Order'>✖</button>
+                                    </form>
+                                </td>
+                            </tr>";
+                    }
+                } else {
+                    echo "<tr><td colspan='6' style='text-align:center;'><em>No live kitchen orders right now.</em></td></tr>";
+                }
+            ?>
                     </tbody>
                 </table>
             </div>
